@@ -9,9 +9,12 @@ htop
 k9s
 neofetch
 neovim
+ripgrep
 rofi
 stow
 tmux
+tree
 ttf-jetbrains-mono-nerd
 unzip
+xclip
 zsh
