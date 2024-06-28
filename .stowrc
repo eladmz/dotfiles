@@ -1,0 +1,4 @@
+--ignore=.stowrc
+--ignore=README.md
+--ignore=LICENSE
+--ignore=pacman-packages.txt
