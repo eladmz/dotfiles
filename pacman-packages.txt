@@ -4,6 +4,7 @@ eza
 fd
 fzf
 git
+github-cli
 htop
 k9s
 neofetch
