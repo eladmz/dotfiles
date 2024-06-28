@@ -1,0 +1,16 @@
+alacritty
+bat
+eza
+fd
+fzf
+git
+htop
+k9s
+neofetch
+neovim
+rofi
+stow
+tmux
+ttf-jetbrains-mono-nerd
+unzip
+zsh
