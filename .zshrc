@@ -38,5 +38,9 @@ alias kconf="kubectl config get-contexts -o name"
 
 alias ls="eza --icons=always"
 
+alias lg="lazygit"
+
+alias mk="minikube"
+
 source ~/.config/zsh/zsh-syntax-highlighting/themes/catppuccin_macchiato.zsh
 source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
