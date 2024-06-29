@@ -7,6 +7,7 @@ git
 github-cli
 htop
 k9s
+lazygit
 neofetch
 neovim
 ripgrep
