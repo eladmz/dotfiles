@@ -13,6 +13,8 @@ setopt HIST_SAVE_NO_DUPS
 setopt SHARE_HISTORY
 # End History
 
+source ~/.zsh_extra 2> /dev/null
+
 source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 export FZF_DEFAULT_OPTS=" \
@@ -21,12 +23,20 @@ export FZF_DEFAULT_OPTS=" \
 --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796"
 source <(fzf --zsh)
 
-eval "$(thefuck --alias)"
 eval "$(starship init zsh)"
-
-source ~/.config/zsh/zsh-syntax-highlighting/themes/catppuccin_macchiato.zsh
-source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+alias k="kubectl"
+alias pods="kubectl get pods -A"
+alias svc="kubectl get services -A"
+alias ingress="kubectl get secrets -A"
+alias kctx="kubectl config use-context"
+alias kconf="kubectl config get-contexts -o name"
+
+alias ls="eza --icons=always"
+
+source ~/.config/zsh/zsh-syntax-highlighting/themes/catppuccin_macchiato.zsh
+source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
