@@ -6,7 +6,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("eladmz.plugins", {
+require("lazy").setup({ { import = "eladmz.plugins" }, { import = "eladmz.plugins.lsp" } }, {
   change_detection= {
     notify = false
   }
