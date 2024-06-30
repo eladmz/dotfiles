@@ -10,7 +10,6 @@ github-cli
 helm
 htop
 k9s
-k9s
 kubectl
 lazygit
 minikube
