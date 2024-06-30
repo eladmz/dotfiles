@@ -20,7 +20,6 @@ rofi
 skaffold
 stow
 tmux
-tree
 ttf-jetbrains-mono-nerd
 unzip
 xclip
