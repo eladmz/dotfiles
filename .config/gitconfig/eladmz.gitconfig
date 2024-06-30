@@ -1,0 +1,20 @@
+[include]
+  path = ./catppuccin.gitconfig
+[core]
+	editor = nvim
+  pager = delta
+[difftool]
+  prompt = false
+[diff]
+  tool = nvimdiff
+  colorMoved = default
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  features = catppuccin-macchiato
+  navigate = true
+  side-by-side = true
+[merge]
+  conflictstyle = diff3
+[difftool "nvimdiff"]
+  cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""

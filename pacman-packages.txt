@@ -1,5 +1,6 @@
 alacritty
 bat
+delta
 docker
 eza
 fd
