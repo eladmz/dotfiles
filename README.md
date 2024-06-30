@@ -21,13 +21,13 @@ tmux
 zsh
 ```
 
-### Symlink the repo
+### Symlink the dotfiles repo
 
 ```
 stow .
 ```
 
-### use the gitconfig
+### Use the gitconfig
 
 ```
 nvim ~/.gitconfig
