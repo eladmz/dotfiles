@@ -75,6 +75,8 @@ alias kconf="kubectl config get-contexts -o name"
 alias ls="eza --icons=always"
 
 alias lg="lazygit"
+alias gd="git diff"
+alias gdt="git difftool"
 
 alias mk="minikube"
 
