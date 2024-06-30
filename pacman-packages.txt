@@ -15,9 +15,11 @@ lazygit
 minikube
 neofetch
 neovim
+nvm
 ripgrep
 rofi
 skaffold
+starship
 stow
 tmux
 ttf-jetbrains-mono-nerd

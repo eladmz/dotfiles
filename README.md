@@ -13,7 +13,9 @@ git
 k9s
 lazygit
 neovim
+nvm
 ripgrep
+starship
 stow
 tmux
 zsh
