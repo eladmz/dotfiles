@@ -22,8 +22,8 @@ bindkey '^w' vi-forward-word
 bindkey '^b' vi-backward-word
 bindkey '^k' up-line-or-search
 bindkey '^j' down-line-or-search
-bindkey '^A' end-of-line
-bindkey '^I' beginning-of-line
+bindkey '^a' end-of-line
+bindkey '^i' beginning-of-line
 bindkey '^[[3~' delete-char # fix delete key
 
 # fzf config
