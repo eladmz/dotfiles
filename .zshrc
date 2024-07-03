@@ -16,14 +16,13 @@ setopt SHARE_HISTORY
 source ~/.zsh_extra 2> /dev/null
 
 source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-bindkey '^e' autosuggest-execute
-bindkey '^ ' autosuggest-accept
+bindkey '^ ' autosuggest-execute
+bindkey '^l' autosuggest-accept
+bindkey '^I' expand-or-complete
 bindkey '^w' vi-forward-word
 bindkey '^b' vi-backward-word
 bindkey '^k' up-line-or-search
 bindkey '^j' down-line-or-search
-bindkey '^a' end-of-line
-bindkey '^i' beginning-of-line
 bindkey '^[[3~' delete-char # fix delete key
 
 # fzf config
@@ -82,6 +81,17 @@ alias kctx="kubectl config use-context"
 alias kconf="kubectl config get-contexts -o name"
 
 alias ls="eza --icons=always"
+alias l="eza -l --icons --git -a"
+alias lt="eza --tree --level=2 --long --icons --git"
+
+alias cl='clear'
+alias v='nvim'
+
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
 
 alias lg="lazygit"
 alias gd="git diff"
