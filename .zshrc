@@ -16,6 +16,15 @@ setopt SHARE_HISTORY
 source ~/.zsh_extra 2> /dev/null
 
 source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+bindkey '^e' autosuggest-execute
+bindkey '^ ' autosuggest-accept
+bindkey '^w' vi-forward-word
+bindkey '^b' vi-backward-word
+bindkey '^k' up-line-or-search
+bindkey '^j' down-line-or-search
+bindkey '^A' end-of-line
+bindkey '^I' beginning-of-line
+bindkey '^[[3~' delete-char # fix delete key
 
 # fzf config
 
