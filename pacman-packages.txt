@@ -4,6 +4,7 @@ delta
 docker
 eza
 fd
+fx
 fzf
 git
 github-cli

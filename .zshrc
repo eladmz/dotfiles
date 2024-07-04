@@ -63,6 +63,7 @@ _fzf_comprun() {
   esac
 }
 
+source <(fx --comp zsh)
 source <(fzf --zsh)
 
 # end fzf config
