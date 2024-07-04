@@ -26,7 +26,7 @@ exec --no-startup-id dex --autostart --environment i3
 
 exec_always --no-startup-id killall polybar
 exec_always --no-startup-id ~/.config/polybar/launch_polybar.sh 
-exec_always --no-startup-id feh --bg-scale ~/.config/backgrounds/nice-blue-background.png
+exec_always --no-startup-id feh --bg-scale ~/.config/backgrounds/landscape.jpg
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
@@ -60,7 +60,7 @@ tiling_drag modifier titlebar
 bindsym $mod+Return exec alacritty
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+q kill
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec --no-startup-id rofi -show drun
@@ -220,9 +220,17 @@ set $mantle #1e2030
 set $crust #181926
 
 # target                 title     bg    text      indicator    border
-client.focused           $mantle   $mauve $mantle  $rosewater $mauve
+client.focused           $green    $green $mantle  $green     $green
 client.focused_inactive  $overlay0 $base  $text    $rosewater $overlay0
 client.unfocused         $overlay0 $base  $text    $rosewater $overlay0
 client.urgent            $peach    $base  $peach   $overlay0  $peach
 client.placeholder       $overlay0 $base  $text    $overlay0  $overlay0
 client.background        $base
+
+#Hide window title bar
+default_border pixel 1
+default_floating_border pixel 1
+for_window [class="^.*"] border pixel 1
+
+gaps inner 8
+gaps outer -8

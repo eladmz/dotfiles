@@ -13,7 +13,6 @@ k9s
 kubectl
 lazygit
 minikube
-neofetch
 neovim
 nvm
 ripgrep

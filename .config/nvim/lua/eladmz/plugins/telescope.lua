@@ -6,13 +6,28 @@ return {
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		"nvim-tree/nvim-web-devicons",
 	},
+	keys = {
+		{ "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Current buffer search" },
+		{ "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Find in buffers" },
+		{ "<leader>fc", "<cmd>Telescope git_commits<cr>", desc = "Find in git commits" },
+		{ "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find All Files" },
+		{ "<C-p>", "<cmd>Telescope git_files<cr>", desc = "Find in git files" },
+		{ "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
+		{ "<leader>fj", "<cmd>Telescope command_history<cr>", desc = "Command history" },
+		{ "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
+		{ "<leader>fl", "<cmd>Telescope lsp_references<cr>", desc = "Lsp References" },
+		{ "<leader>fo", "<cmd>Telescope oldfiles<cr>", desc = "Open recent files" },
+		{ "<leader>fa", "<cmd>Telescope live_grep<cr>", desc = "Find string in all files" },
+		{ "<leader>fs", "<cmd>Telescope grep_string<cr>", desc = "Find string under cursor" },
+		{ "<leader>ft", "<cmd>Telescope treesitter<cr>", desc = "Treesitter" },
+	},
 	config = function()
 		local telescope = require("telescope")
 		local actions = require("telescope.actions")
 
 		telescope.setup({
 			defaults = {
-				path_display = { "smart" },
+				path_display = { "truncate" },
 				mappings = {
 					i = {
 						["<C-k>"] = actions.move_selection_previous, -- move to prev result
@@ -21,6 +36,27 @@ return {
 					},
 				},
 			},
+			pickers = {
+				live_grep = {
+					file_ignore_patterns = { "node_modules", ".git", ".venv" },
+					additional_args = function(_)
+						return { "--hidden" }
+					end,
+				},
+				grep_string = {
+					file_ignore_patterns = { "node_modules", ".git", ".venv" },
+					additional_args = function(_)
+						return { "--hidden" }
+					end,
+				},
+				find_files = {
+					file_ignore_patterns = { "node_modules", ".git", ".venv" },
+					hidden = true,
+				},
+			},
+			extensions = {
+				"fzf",
+			},
 		})
 
 		telescope.load_extension("fzf")
@@ -28,13 +64,13 @@ return {
 		-- set keymaps
 		local keymap = vim.keymap -- for conciseness
 
-		keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Fuzzy find files in cwd" })
-		keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Fuzzy find recent files" })
-		keymap.set("n", "<leader>fg", "<cmd>Telescope git_files<cr>", { desc = "Fuzzy find git files" })
-		keymap.set("n", "<leader>fd", "<cmd>Telescope git_status<cr>", { desc = "Fuzzy find git dirty files" })
-		keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Fuzzy find buffers" })
-		keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
-		keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Find string under cursor in cwd" })
-		keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
+		-- keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Fuzzy find files in cwd" })
+		-- keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Fuzzy find recent files" })
+		-- keymap.set("n", "<C-p>", "<cmd>Telescope git_files<cr>", { desc = "Fuzzy find git files" })
+		-- keymap.set("n", "<leader>fg", "<cmd>Telescope git_status<cr>", { desc = "Fuzzy find git dirty files" })
+		-- keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Fuzzy find buffers" })
+		-- keymap.set("n", "<leader>fs", "<cmd>Telescope git_grep<cr>", { desc = "Find string in cwd" })
+		-- keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Find string under cursor in cwd" })
+		-- keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
 	end,
 }
