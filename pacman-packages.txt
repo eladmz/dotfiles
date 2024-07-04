@@ -25,4 +25,5 @@ tmux
 ttf-jetbrains-mono-nerd
 unzip
 xclip
+zoxide
 zsh

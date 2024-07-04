@@ -18,6 +18,7 @@ ripgrep
 starship
 stow
 tmux
+zoxide
 zsh
 ```
 

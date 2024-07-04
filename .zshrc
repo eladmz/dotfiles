@@ -68,6 +68,7 @@ source <(fzf --zsh)
 # end fzf config
 
 eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -84,8 +85,9 @@ alias ls="eza --icons=always"
 alias l="eza -l --icons --git -a"
 alias lt="eza --tree --level=2 --long --icons --git"
 
-alias cl='clear'
-alias v='nvim'
+alias cl="clear"
+alias v="nvim"
+alias cd="vi"
 
 alias ..="cd .."
 alias ...="cd ../.."
