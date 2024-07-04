@@ -1,3 +1,6 @@
+autoload -Uz compinit
+compinit
+
 export HISTFILE=~/.zsh_history
 export HISTSIZE=100000
 export SAVEHIST=$HISTSIZE
@@ -88,7 +91,8 @@ alias lt="eza --tree --level=2 --long --icons --git"
 
 alias cl="clear"
 alias v="nvim"
-alias cd="vi"
+alias cd="z"
+alias cdi="zi"
 
 alias ..="cd .."
 alias ...="cd ../.."
