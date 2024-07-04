@@ -1,6 +1,3 @@
-autoload -Uz compinit
-compinit
-
 export HISTFILE=~/.zsh_history
 export HISTSIZE=100000
 export SAVEHIST=$HISTSIZE
@@ -66,7 +63,6 @@ _fzf_comprun() {
   esac
 }
 
-source <(fx --comp zsh)
 source <(fzf --zsh)
 
 # end fzf config

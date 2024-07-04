@@ -8,7 +8,6 @@ bat
 delta
 eza
 fd
-fx
 fzf
 git
 k9s
