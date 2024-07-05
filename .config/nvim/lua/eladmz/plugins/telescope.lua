@@ -12,6 +12,7 @@ return {
 		{ "<leader>fc", "<cmd>Telescope git_commits<cr>", desc = "Find in git commits" },
 		{ "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find All Files" },
 		{ "<C-p>", "<cmd>Telescope git_files<cr>", desc = "Find in git files" },
+		{ "<leader>fg", "<cmd>Telescope git_status<cr>", desc = "Find git changed files" },
 		{ "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
 		{ "<leader>fj", "<cmd>Telescope command_history<cr>", desc = "Command history" },
 		{ "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
