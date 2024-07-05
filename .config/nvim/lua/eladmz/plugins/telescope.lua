@@ -10,6 +10,7 @@ return {
 		{ "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Current buffer search" },
 		{ "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Find in buffers" },
 		{ "<leader>fc", "<cmd>Telescope git_commits<cr>", desc = "Find in git commits" },
+		{ "<leader>fr", "<cmd>Telescope git_bcommits<cr>", desc = "Find in buffer git commits" },
 		{ "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find All Files" },
 		{ "<C-p>", "<cmd>Telescope git_files<cr>", desc = "Find in git files" },
 		{ "<leader>fg", "<cmd>Telescope git_status<cr>", desc = "Find git changed files" },
