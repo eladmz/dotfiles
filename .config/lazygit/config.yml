@@ -1,3 +1,8 @@
+git:
+  paging:
+    colorArg: always
+    useConfig: true
+
 gui:
   theme:
     activeBorderColor:
