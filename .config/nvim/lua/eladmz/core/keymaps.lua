@@ -1,7 +1,9 @@
 vim.g.mapleader = " "
 
 local keymap = vim.keymap
-keymap.set("n", "<leader><esc>", ":nohl<CR>", { desc = "Clear search highlights" })
+
+-- <Space>g is moving the cursor, cancelling
+keymap.set("n", "<leader>g", "<Nop>", { silent = true })
 
 -- increment/decrement numbers
 keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
@@ -25,7 +27,7 @@ keymap.set("n", "]b", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 keymap.set("n", "<leader>bx", "<cmd>bd<cr>", { desc = "Close Buffer" })
 
 -- Clear search with <esc>
-keymap.set({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and Clear hlsearch" })
+keymap.set("n", "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and Clear hlsearch" })
 
 -- new file
 keymap.set("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
