@@ -102,5 +102,5 @@ alias gdt="git difftool"
 
 alias mk="minikube"
 
-source ~/.config/zsh/zsh-syntax-highlighting/themes/catppuccin_macchiato.zsh
+source ~/.config/zsh/zsh-syntax-highlighting-catppuccin/themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh
 source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
