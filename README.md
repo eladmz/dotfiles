@@ -1,6 +1,11 @@
 # dotfiles repo
 
 ### Requirements
+#### Nerd Fond
+```
+https://www.nerdfonts.com/font-downloads
+```
+#### Packages
 
 ```
 alacritty
