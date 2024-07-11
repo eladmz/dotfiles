@@ -2,7 +2,11 @@
 
 ### For MacOS step by step
 
-Follow the instructions [a relative link](MacOS.md)
+Follow the instructions [here](MacOS.md)
+
+### Basics Cheat Sheet
+
+Follow the Cheat Sheet [here](CHEATSHEET.md)
 
 ### Requirements
 
