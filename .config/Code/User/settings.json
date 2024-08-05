@@ -37,6 +37,7 @@
     "outdent",
     "vsplit"
   ],
+  "editor.acceptSuggestionOnCommitCharacter": false,
   "editor.codeActionsOnSave": ["source.formatDocument", "source.fixAll.eslint"],
   "editor.detectIndentation": false,
   "editor.fontFamily": "JetBrainsMono Nerd Font Mono",
@@ -55,7 +56,7 @@
   "extensions.ignoreRecommendations": true,
   "gitlens.plusFeatures.enabled": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "projectManager.git.baseFolders": ["$HOME/development", "$HOME/Development"],
+  "projectManager.git.baseFolders": ["~/development"],
   "projectManager.sortList": "Recent",
   "security.workspace.trust.untrustedFiles": "open",
   "turboConsoleLog.addSemicolonInTheEnd": true,
