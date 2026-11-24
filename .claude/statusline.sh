@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Claude Code status line, Catppuccin Mocha theme (24-bit truecolor), minimal.
 #
-# Line 1: model | effort | [bar] used/size (pct%)
-# Line 2: repo | worktree | branch | (+added,-removed) | PR status
+# Line 1: ctx [bar] used/size (pct%) | 5h [bar] pct% reset | 7d [bar] pct% reset
+# Line 2: model | effort | repo | worktree | branch | (+added,-removed) | PR status
 #
 # Color rules: primary info in Text, secondary in Overlay, separators dim.
 # Color is reserved for signal: the context bar, a warning as context grows,
@@ -26,7 +26,7 @@ PEACH=$'\033[38;2;250;179;135m'     # fab387
 MAROON=$'\033[38;2;235;160;172m'    # eba0ac
 RED=$'\033[38;2;243;139;168m'       # f38ba8
 
-BAR_WIDTH=20
+BAR_WIDTH=10
 PR_TTL=60
 SEP=" ${SURFACE2}|${RST} "
 
@@ -54,19 +54,24 @@ short_tokens() {
 
 # ---------- parse JSON (single jq call) ----------
 # Fields are joined with \x1f, a non-whitespace IFS, so empty fields survive.
-IFS=$'\x1f' read -r model effort used size pct dir < <(
-  jq -r '[
+# The reset countdowns are computed in jq (its `now`) to avoid a date fork.
+IFS=$'\x1f' read -r model effort used size pct dir rl5_pct rl5_left rl7_pct rl7_left < <(
+  jq -r 'def left: if type == "number" then (. - now | floor) else null end;
+  [
     .model.display_name, .effort.level,
     .context_window.total_input_tokens, .context_window.context_window_size,
-    .context_window.used_percentage, (.workspace.current_dir // .cwd)
+    .context_window.used_percentage, (.workspace.current_dir // .cwd),
+    .rate_limits.five_hour.used_percentage, (.rate_limits.five_hour.resets_at | left),
+    .rate_limits.seven_day.used_percentage, (.rate_limits.seven_day.resets_at | left)
   ] | map(. // "" | tostring) | join("\u001f")' 2>/dev/null
 )
 [ -z "$dir" ] && dir=$PWD
 
 # ---------- line 1 ----------
 l1=()
-[ -n "$model" ] && l1+=("${TEXT}${model}${RST}")
-[ -n "$effort" ] && l1+=("${SUBTEXT0}${effort}${RST}")
+lm=()
+[ -n "$model" ] && lm+=("${TEXT}${model}${RST}")
+[ -n "$effort" ] && lm+=("${SUBTEXT0}${effort}${RST}")
 
 size=${size%%.*}
 if [ -n "$size" ] && [ "$size" -gt 0 ] 2>/dev/null; then
@@ -96,8 +101,48 @@ if [ -n "$size" ] && [ "$size" -gt 0 ] 2>/dev/null; then
 
   short_tokens "$used"; used_s=$REPLY
   short_tokens "$size"; size_s=$REPLY
-  l1+=("${OVERLAY0}[${FILL}${bar_fill}${SURFACE0}${bar_empty}${OVERLAY0}]${RST} ${SUBTEXT0}${used_s}/${size_s}${RST} ${PCT_COLOR}(${pct_int}%)${RST}")
+  l1+=("${SUBTEXT0}ctx${RST} ${OVERLAY0}[${FILL}${bar_fill}${SURFACE0}${bar_empty}${OVERLAY0}]${RST} ${SUBTEXT0}${used_s}/${size_s}${RST} ${PCT_COLOR}(${pct_int}%)${RST}")
 fi
+
+# Usage limits (Claude.ai subscriptions only; absent until the first response
+# of the session). Colored by how much of the window is used.
+# rate_segment <label> <used pct> <seconds until reset>
+RL_WIDTH=$BAR_WIDTH
+rate_segment() {
+  local label=$1 pct=$2 left=$3 n filled i fill="" empty="" FILL PCT_COLOR reset=""
+  printf -v n '%.0f' "$pct" 2>/dev/null || n=0
+  filled=$(( n * RL_WIDTH / 100 ))
+  [ "$filled" -gt "$RL_WIDTH" ] && filled=$RL_WIDTH
+  [ "$filled" -lt 0 ] && filled=0
+  [ "$filled" -eq 0 ] && [ "$n" -gt 0 ] && filled=1
+  for ((i = 0; i < filled; i++)); do fill+="█"; done
+  for ((i = filled; i < RL_WIDTH; i++)); do empty+="█"; done
+
+  if   [ "$n" -ge 90 ]; then FILL=$RED;    PCT_COLOR=$RED
+  elif [ "$n" -ge 75 ]; then FILL=$MAROON; PCT_COLOR=$MAROON
+  elif [ "$n" -ge 60 ]; then FILL=$PEACH;  PCT_COLOR=$PEACH
+  elif [ "$n" -ge 40 ]; then FILL=$YELLOW; PCT_COLOR=$YELLOW
+  else                       FILL=$LAVENDER; PCT_COLOR=$OVERLAY0
+  fi
+
+  # Countdown: 3d4h, 2h13m or 45m.
+  case "$left" in
+    ''|*[!0-9]*) ;;
+    *) if [ "$left" -gt 0 ]; then
+         local d=$(( left / 86400 )) h=$(( (left % 86400) / 3600 )) m=$(( (left % 3600) / 60 ))
+         if   [ "$d" -gt 0 ]; then reset="${d}d${h}h"
+         elif [ "$h" -gt 0 ]; then reset="${h}h${m}m"
+         else                      reset="${m}m"
+         fi
+         reset=" ${OVERLAY0}↻ ${reset}${RST}"
+       fi ;;
+  esac
+
+  REPLY="${SUBTEXT0}${label}${RST} ${OVERLAY0}[${FILL}${fill}${SURFACE0}${empty}${OVERLAY0}]${RST} ${PCT_COLOR}${n}%${RST}${reset}"
+}
+
+[ -n "$rl5_pct" ] && { rate_segment 5h "$rl5_pct" "$rl5_left"; l1+=("$REPLY"); }
+[ -n "$rl7_pct" ] && { rate_segment 7d "$rl7_pct" "$rl7_left"; l1+=("$REPLY"); }
 
 [ ${#l1[@]} -gt 0 ] && join_segments "${l1[@]}"
 
@@ -177,5 +222,7 @@ else
   l2+=("${TEXT}${name}${RST}")
 fi
 
+l2=("${lm[@]}" "${l2[@]}")
 [ ${#l2[@]} -gt 0 ] && join_segments "${l2[@]}"
 exit 0
+
