@@ -1,106 +1,64 @@
-export HISTFILE=~/.zsh_history
-export HISTSIZE=100000
-export SAVEHIST=$HISTSIZE
+typeset -U path                                   # no duplicate PATH entries
+path=("$HOME/.local/bin" $path)
+export EDITOR="zed --wait"
+BREW=${HOMEBREW_PREFIX:-/opt/homebrew}            # don't fork `brew --prefix` (~150ms)
 
-# History
-setopt EXTENDED_HISTORY
-setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_FIND_NO_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_SPACE
-setopt HIST_SAVE_NO_DUPS
-setopt SHARE_HISTORY
-# End History
+# --- History ---
+HISTFILE=~/.zsh_history
+HISTSIZE=200000
+SAVEHIST=200000
+setopt SHARE_HISTORY EXTENDED_HISTORY HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE HIST_REDUCE_BLANKS
+setopt AUTO_CD
 
-source ~/.zsh_extra 2> /dev/null
+# --- Secrets ---
+source ~/.zsh_secrets 2> /dev/null
 
-source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-bindkey '^ ' autosuggest-execute
-bindkey '^l' autosuggest-accept
-bindkey '^I' expand-or-complete
-bindkey '^w' vi-forward-word
-bindkey '^b' vi-backward-word
-bindkey '^k' up-line-or-search
-bindkey '^j' down-line-or-search
-bindkey '^[[3~' delete-char # fix delete key
+# --- Completion (full security audit + rebuild only once a day, otherwise use the cache) ---
+autoload -Uz compinit
+for dump in ~/.zcompdump(N.mh+24); do compinit; done
+compinit -C
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' menu select
 
-# fzf config
+# --- Up/Down: search history by what you already typed ---
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '^[[A' up-line-or-beginning-search '^[OA' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search '^[OB' down-line-or-beginning-search
 
+# --- Catppuccin Mocha + fzf defaults ---
+export BAT_THEME="Catppuccin Mocha"
 export FZF_DEFAULT_OPTS=" \
---color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 \
---color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
---color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796"
+--color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8 \
+--color=fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC \
+--color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8 \
+--color=selected-bg:#45475A,border:#6C7086,label:#CDD6F4"
+export FZF_DEFAULT_COMMAND='fd --hidden --strip-cwd-prefix --exclude .git'      # fast, respects .gitignore
+export FZF_CTRL_T_COMMAND='fd --type=f --hidden --strip-cwd-prefix --exclude .git'
+export FZF_ALT_C_COMMAND='fd --type=d --hidden --strip-cwd-prefix --exclude .git'
+export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :300 {}'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --color=always {}'"
 
-export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
-
-_fzf_compgen_path() {
-  fd --hidden --exclude .git . "$1"
-}
-
-_fzf_compgen_dir() {
-  fd --type=d --hidden --exclude .git . "$1"
-}
-
-source ~/.config/fzf/fzf-git.sh
-
-show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
-
-export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
-export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
-
-_fzf_comprun() {
-  local command=$1
-  shift
-
-  case "$command" in
-    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
-    export|unset) fzf --preview "eval 'echo \${}'"         "$@" ;;
-    ssh)          fzf --preview 'dig {}'                   "$@" ;;
-    *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
-  esac
-}
-
-source <(fzf --zsh)
-
-# end fzf config
-
+# --- Tools ---
+eval "$(mise activate zsh)"
 eval "$(starship init zsh)"
-eval "$(zoxide init zsh)"
+source <(fzf --zsh)                               # Ctrl-R history, Ctrl-T files, Alt-C cd
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+# --- ZSH Tools ---
+eval "$($BREW/opt/zsh-patina/bin/zsh-patina activate)"
+source $BREW/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-alias k="kubectl"
-alias pods="kubectl get pods -A"
-alias svc="kubectl get services -A"
-alias ingress="kubectl get secrets -A"
-alias kctx="kubectl config use-context"
-alias kconf="kubectl config get-contexts -o name"
+# --- Aliases ---
+alias ls='eza --icons --group-directories-first'
+alias ll='eza -l --icons --git --group-directories-first'
+alias la='eza -la --icons --git --group-directories-first'
+alias lt='eza --tree --level=2 --icons'
+alias cat='bat --paging=never --style=plain'
+alias ..='cd ..' ...='cd ../..'
+alias gs='git status' gd='git diff'
+alias cc='claude'
+alias k=kubectl
 
-alias ls="eza --icons=always"
-alias l="eza -l --icons --git -a"
-alias lt="eza --tree --level=2 --long --icons --git"
-
-alias cl="clear"
-alias v="nvim"
-alias cd="z"
-alias cdi="zi"
-
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias ......="cd ../../../../.."
-
-alias lg="lazygit"
-alias gd="git diff"
-alias gdt="git difftool"
-
-alias mk="minikube"
-
-source ~/.config/zsh/zsh-syntax-highlighting-catppuccin/themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh
-source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# --- zoxide last: `cd` itself becomes zoxide (replaces alias cd=z), `cdi` = interactive ---
+eval "$(zoxide init zsh --cmd cd)"

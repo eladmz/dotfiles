@@ -1,0 +1,31 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  // ... other keymaps
+  {
+    "context": "VimControl && !menu",
+    "bindings": {
+      // ... other normal and visual mode keymaps
+      "space space": "file_finder::Toggle",
+      "space o": "outline::Toggle",
+      "space p": "projects::OpenRecent",
+      "space g d": "git::Diff",
+      "space g b": "git::Branch",
+      "space g w": "git::Worktree",
+      "space g f": "git::Fetch",
+      "space g p": "git::Pull",
+    },
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "cmd-r": "workspace::ToggleRightDock",
+      "cmd-j": "terminal_panel::ToggleFocus",
+    },
+  },
+]

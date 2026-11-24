@@ -1,70 +1,26 @@
-# dotfiles repo
+# MacOS step by step
 
-### For MacOS step by step
-
-Follow the instructions [here](MacOS.md)
-
-### Basics Cheat Sheet
-
-Follow the Cheat Sheet [here](CHEATSHEET.md)
-
-### Requirements
-
-#### Nerd Fond
+### Brew
+- install brew package manager, follow the instructions
 
 ```
-https://www.nerdfonts.com/font-downloads
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-#### Packages
+- install JetBrainsMono Nerd Font
 
 ```
-alacritty
-bat
-delta
-eza
-fd
-fzf
-git
-k9s
-lazygit
-neovim
-nvm
-ripgrep
-starship
-stow
-tmux
-zoxide
-zsh
+brew install --cask font-jetbrains-mono-nerd-font
 ```
 
-#### Clone repos
-
-##### zsh plugins
+- install required packages
 
 ```
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.config/zsh/zsh-syntax-highlighting
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.config/zsh/zsh-autosuggestions
-git clone https://github.com/catppuccin/zsh-syntax-highlighting.git ~/.config/zsh/zsh-syntax-highlighting-catppuccin
+brew install bat eza fd fzf gh git jq derailed/k9s/k9s ripgrep starship wget yq zoxide zsh-autosuggestions zsh-patina 
 ```
 
-##### tmux plugins
-
+- k9s config files are in
 ```
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-```
-
-### Symlink the dotfiles repo
-
-```
-stow .
-```
-
-### Use the gitconfig
-
-```
-nvim ~/.gitconfig
-
-[include]
-  path = ~/.config/gitconfig/eladmz.gitconfig
+~/Library/Application\ Support/k9s/skins/catppuccin-mocha.yaml
+~/Library/Application\ Support/k9s/config.yaml
 ```

@@ -1,0 +1,9 @@
+"variable.function" = "#a6e3a1"
+"dynamic.callable" = "#a6e3a1"
+"entity.name.function" = "#a6e3a1"
+"support" = "#a6e3a1"
+
+"string" = "#f9e2af"
+
+[metadata]
+extends = "catppuccin-mocha"

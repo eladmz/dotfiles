@@ -1,0 +1,62 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  // Visual settings
+  "cli_default_open_behavior": "existing_window",
+  "agent_buffer_font_size": 16.0,
+  "project_panel": {
+    "dock": "left",
+  },
+  "outline_panel": {
+    "dock": "left",
+  },
+  "collaboration_panel": {
+    "dock": "left",
+  },
+  "git": {
+    "inline_blame": { "show_commit_summary": true, "padding": 6 },
+  },
+  "diff_view_style": "unified",
+  "git_panel": { "dock": "left", "tree_view": true },
+  "theme": {
+    "mode": "system",
+    "light": "Catppuccin Mocha",
+    "dark": "Catppuccin Mocha",
+  },
+  "icon_theme": "Material Icon Theme",
+  "buffer_font_family": "JetBrainsMonoNL Nerd Font Mono",
+  "buffer_font_size": 15.0,
+  "buffer_font_features": { "calt": false },
+  "ui_font_family": ".SystemUIFont",
+  "ui_font_size": 16.0,
+  "title_bar": { "show_branch_status_icon": true, "show_sign_in": false },
+  "tabs": { "file_icons": true, "git_status": true },
+  "current_line_highlight": "none",
+  "diagnostics": { "inline": { "enabled": true, "max_severity": "all" } },
+  "terminal": { "dock": "right" },
+
+  // General Settings
+  "preferred_line_length": 120,
+
+  // Vim settings
+  "vim_mode": true,
+  "relative_line_numbers": "enabled",
+
+  // Languages settings
+  "languages": {
+    "JavaScript": {
+      "code_actions_on_format": { "source.fixAll.eslint": true },
+      "format_on_save": "on",
+    },
+    "TypeScript": {
+      "code_actions_on_format": { "source.fixAll.eslint": true },
+      "format_on_save": "on",
+    },
+  },
+}
